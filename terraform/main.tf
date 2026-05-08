@@ -2,8 +2,12 @@ resource "random_id" "bucket_suffix" {
   byte_length = 4
 }
 
-resource "aws_s3_bucket" "website" {
-  bucket = "${var.project_name}-${random_id.bucket_suffix.hex}"
+resource "aws_s3_object" "index" {
+  bucket       = aws_s3_bucket.website.id
+  key          = "index.html"
+  source       = "${path.module}/../website/index.html"
+  content_type = "text/html"
+  source_hash  = filemd5("${path.module}/../website/index.html")
 }
 
 resource "aws_s3_bucket_public_access_block" "website" {
