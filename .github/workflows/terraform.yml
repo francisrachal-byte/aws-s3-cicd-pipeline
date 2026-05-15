@@ -26,8 +26,8 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v5
         with:
-          role-to-assume: role-to-assume: arn:aws:iam::856898221075:role/GitRole
-          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::856898221075:role/GitRole
+          aws-region: us-east-
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -46,3 +46,6 @@ jobs:
 
       - name: Terraform Apply
         run: terraform apply -auto-approve tfplan
+
+      - name: Deploy website to S3
+        run: aws s3 sync ../website s3://frank-s3-cicd-pipeline-051fd798 --delete
